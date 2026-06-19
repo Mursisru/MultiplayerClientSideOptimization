@@ -1,0 +1,8 @@
+bin/
+obj/
+libs/
+_buildroot/
+.vs/
+.debug/
+*.user
+Directory.Build.props
