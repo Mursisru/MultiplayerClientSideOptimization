@@ -32,6 +32,10 @@ namespace NOLoader.MultiplayerClientSideOptimization
         internal static float GrassPositionBufferPercent { get; private set; } = 1f;
         internal static float GrassVisibleBufferPercent { get; private set; } = 0.5f;
 
+        internal static bool MotionStrideEnabled { get; private set; } = true;
+        internal static float MotionSpeedThresholdMps { get; private set; } = 80f;
+        internal static float MotionZoneScale { get; private set; } = 0.75f;
+
         internal static bool DeepFreezeEnabled { get; private set; } = true;
         internal static float DeepFreezeMinM { get; private set; } = 40000f;
         internal static float DeepFreezeScanIntervalS { get; private set; } = 1f;
@@ -85,6 +89,16 @@ namespace NOLoader.MultiplayerClientSideOptimization
             LodBiasMin = cfg.GetFloat(Section, "lod_bias_min", 1.5f);
             GrassPositionBufferPercent = cfg.GetFloat(Section, "grass_position_buffer_percent", 1f);
             GrassVisibleBufferPercent = cfg.GetFloat(Section, "grass_visible_buffer_percent", 0.5f);
+
+            MotionStrideEnabled = cfg.GetBool(Section, "motion_stride_enabled", true);
+            MotionSpeedThresholdMps = cfg.GetFloat(Section, "motion_speed_threshold_mps", 80f);
+            if (MotionSpeedThresholdMps < 0f)
+                MotionSpeedThresholdMps = 0f;
+            MotionZoneScale = cfg.GetFloat(Section, "motion_zone_scale", 0.75f);
+            if (MotionZoneScale <= 0f)
+                MotionZoneScale = 0.25f;
+            if (MotionZoneScale > 1f)
+                MotionZoneScale = 1f;
 
             DeepFreezeEnabled = cfg.GetBool(Section, "deep_freeze", true);
             DeepFreezeMinM = cfg.GetFloat(Section, "deep_freeze_min_m", 40000f);

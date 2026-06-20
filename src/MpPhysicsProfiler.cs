@@ -124,7 +124,7 @@ namespace NOLoader.MultiplayerClientSideOptimization
 
             var sb = new StringBuilder(512);
 
-            sb.Append("[MpOpt] v0.6.2 units=").Append(UnitRegistry.allUnits.Count)
+            sb.Append("[MpOpt] v0.6.3 units=").Append(UnitRegistry.allUnits.Count)
 
                 .Append(" localAc=").Append(localAircraft)
 

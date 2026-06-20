@@ -93,6 +93,66 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             return false;
         }
 
+        public static bool GroundVehicleUpdatePrefixSkip(GroundVehicle __instance)
+        {
+            if (!MpSessionState.Active || __instance == null)
+                return true;
+
+            if (!MpPatchGuard.IsPresentationUnit(__instance))
+                return true;
+
+            if (!MpVisualBudget.ShouldSkipPresentationComponent(__instance))
+                return true;
+
+            MpStats.GroundVehicleUpdateSkipped++;
+            return false;
+        }
+
+        public static bool JetNozzleSlowUpdatePrefixSkip(JetNozzle __instance)
+        {
+            if (!MpSessionState.Active || __instance == null)
+                return true;
+
+            Aircraft? aircraft = __instance.GetComponentInParent<Aircraft>();
+
+            if (ShouldSkipDeepCull(aircraft))
+                return false;
+
+            if (!MpPatchGuard.ShouldSkipPresentationVfx(aircraft))
+                return true;
+
+            MpStats.JetNozzleSlowUpdateSkipped++;
+            return false;
+        }
+
+        public static bool FlareEjectorUpdatePrefixSkip(FlareEjector __instance)
+        {
+            if (!MpSessionState.Active || __instance == null)
+                return true;
+
+            return !TrySkipCountermeasureUpdate(__instance.aircraft, ref MpStats.FlareEjectorUpdateSkipped);
+        }
+
+        public static bool ChaffEjectorUpdatePrefixSkip(ChaffEjector __instance)
+        {
+            if (!MpSessionState.Active || __instance == null)
+                return true;
+
+            return !TrySkipCountermeasureUpdate(__instance.aircraft, ref MpStats.ChaffEjectorUpdateSkipped);
+        }
+
+        private static bool TrySkipCountermeasureUpdate(Aircraft? aircraft, ref long counter)
+        {
+            if (aircraft == null || !MpPatchGuard.IsPresentationUnit(aircraft))
+                return false;
+
+            if (!MpVisualBudget.ShouldSkipPresentationComponent(aircraft))
+                return false;
+
+            counter++;
+            return true;
+        }
+
         private static bool ShouldSkipDeepCull(Unit? unit)
         {
             if (unit == null || !MpConfig.DeepFreezeEnabled)

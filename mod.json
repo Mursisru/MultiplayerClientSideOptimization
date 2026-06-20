@@ -4,7 +4,7 @@
 
   "guid": "a7b8c9d0e1f24365869708192a3b4c5d",
 
-  "version": "0.6.2",
+  "version": "0.6.3",
 
   "name": "Multiplayer Client-Side Optimization",
 
@@ -555,6 +555,54 @@
       "method": "PrefixSkip",
 
       "expectedSignatureHash": "15B067A4DA821AB4"
+
+    },
+
+    {
+
+      "target": "GroundVehicle::Update",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.PresentationVfxPatches::GroundVehicleUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "24A44AC1DDF8CADF"
+
+    },
+
+    {
+
+      "target": "JetNozzle::SlowUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.PresentationVfxPatches::JetNozzleSlowUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "00DD630F183DACEC"
+
+    },
+
+    {
+
+      "target": "FlareEjector::Update",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.PresentationVfxPatches::FlareEjectorUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "61F24B4DA4C249DE"
+
+    },
+
+    {
+
+      "target": "ChaffEjector::Update",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.PresentationVfxPatches::ChaffEjectorUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "B9C8EA368FB2D74A"
 
     }
 
