@@ -22,16 +22,14 @@ namespace NOLoader.MultiplayerClientSideOptimization
                 return false;
 
             float dist = MpPatchGuard.DistanceToObserver(unit);
-            float fullM = MpMotionBudget.GetEffectivePresentationFullM();
-            float nearM = MpMotionBudget.GetEffectivePresentationNearM();
 
-            if (dist <= fullM)
+            if (dist <= MpConfig.PresentationFullM)
                 return ShouldSkipFullZoneVisual(unit, worldPosition);
 
             int stride = MpConfig.VisualUpdateStride;
             int slot = GetUnitSlot(unit);
 
-            if (dist <= nearM)
+            if (dist <= MpConfig.PresentationNearM)
             {
                 if (stride <= 1)
                     return false;
@@ -76,13 +74,10 @@ namespace NOLoader.MultiplayerClientSideOptimization
                 return true;
 
             float dist = MpPatchGuard.DistanceToObserver(unit);
-            float fullM = MpMotionBudget.GetEffectivePresentationFullM();
-            float nearM = MpMotionBudget.GetEffectivePresentationNearM();
-
             if (dist > MpConfig.PresentationFarM)
                 return true;
 
-            if (dist <= fullM)
+            if (dist <= MpConfig.PresentationFullM)
             {
                 if (MpConfig.ComponentFullOffscreenSkip && MpPatchGuard.IsOffScreen(unit.transform.position))
                 {
@@ -93,7 +88,7 @@ namespace NOLoader.MultiplayerClientSideOptimization
                 return false;
             }
 
-            if (dist > nearM)
+            if (dist > MpConfig.PresentationNearM)
                 return false;
 
             int stride = MpConfig.ComponentUpdateStride;

@@ -29,10 +29,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
         internal static long CosmeticBehavioursDisabled;
         internal static long CosmeticLightsDisabled;
         internal static long DeepCullVfxSkipped;
-        internal static long GroundVehicleUpdateSkipped;
-        internal static long JetNozzleSlowUpdateSkipped;
-        internal static long FlareEjectorUpdateSkipped;
-        internal static long ChaffEjectorUpdateSkipped;
         internal static float LastOpticalRangeM;
     }
 }
