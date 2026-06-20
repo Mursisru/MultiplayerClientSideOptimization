@@ -23,11 +23,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
         internal static bool VisualFullOffscreenSkip { get; private set; } = true;
         internal static int VisualFullZoneStride { get; private set; } = 2;
         internal static bool ComponentFullOffscreenSkip { get; private set; } = true;
-        internal static bool ComponentMidOnscreenStride { get; private set; } = true;
-
-        internal static bool MotionStrideEnabled { get; private set; } = true;
-        internal static float MotionSpeedThresholdMps { get; private set; } = 80f;
-        internal static float MotionZoneScale { get; private set; } = 0.85f;
 
         internal static bool MemoryBudgetEnabled { get; private set; } = true;
         internal static int MemoryReservoirMb { get; private set; } = 4096;
@@ -74,17 +69,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
             if (VisualFullZoneStride < 1)
                 VisualFullZoneStride = 1;
             ComponentFullOffscreenSkip = cfg.GetBool(Section, "component_full_offscreen_skip", true);
-            ComponentMidOnscreenStride = cfg.GetBool(Section, "component_mid_onscreen_stride", true);
-
-            MotionStrideEnabled = cfg.GetBool(Section, "motion_stride_enabled", true);
-            MotionSpeedThresholdMps = cfg.GetFloat(Section, "motion_speed_threshold_mps", 80f);
-            if (MotionSpeedThresholdMps < 0f)
-                MotionSpeedThresholdMps = 0f;
-            MotionZoneScale = cfg.GetFloat(Section, "motion_zone_scale", 0.85f);
-            if (MotionZoneScale < 0.25f)
-                MotionZoneScale = 0.25f;
-            if (MotionZoneScale > 1f)
-                MotionZoneScale = 1f;
 
             MemoryBudgetEnabled = cfg.GetBool(Section, "memory_budget", true);
             MemoryReservoirMb = cfg.GetInt(Section, "memory_reservoir_mb", 4096);

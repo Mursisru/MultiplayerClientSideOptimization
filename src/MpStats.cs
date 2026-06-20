@@ -25,8 +25,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
         internal static long DeepFreezeDeopt;
         internal static long VisualFullZoneSkipped;
         internal static long ComponentFullZoneSkipped;
-        internal static long ComponentMidZoneSkipped;
-        internal static long JetNozzleSlowUpdateSkipped;
         internal static long VisualDeepSkipped;
         internal static long CosmeticBehavioursDisabled;
         internal static long CosmeticLightsDisabled;

@@ -93,25 +93,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             return false;
         }
 
-        public static bool JetNozzleSlowUpdatePrefixSkip(JetNozzle __instance)
-        {
-            if (!MpSessionState.Active || __instance == null)
-                return true;
-
-            Aircraft? aircraft = __instance.GetComponentInParent<Aircraft>();
-            if (ShouldSkipDeepCull(aircraft))
-                return false;
-
-            if (aircraft == null || !MpPatchGuard.IsPresentationUnit(aircraft))
-                return true;
-
-            if (!MpPatchGuard.IsLowDetail(aircraft) && !MpPatchGuard.IsBeyondPresentationFar(aircraft))
-                return true;
-
-            MpStats.JetNozzleSlowUpdateSkipped++;
-            return false;
-        }
-
         private static bool ShouldSkipDeepCull(Unit? unit)
         {
             if (unit == null || !MpConfig.DeepFreezeEnabled)

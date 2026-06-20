@@ -4,7 +4,7 @@
 
 [![Nuclear Option](https://img.shields.io/badge/Game-Nuclear%20Option-blue)](https://store.steampowered.com/app/2168680/Nuclear_Option/)
 
-[![Status](https://img.shields.io/badge/Status-v0.6.4-green)]()
+[![Status](https://img.shields.io/badge/Status-v0.6.0-green)]()
 
 
 
@@ -12,7 +12,7 @@ Client-side performance mod for **Nuclear Option** multiplayer on **dedicated se
 
 
 
-**Version:** `0.6.4` (NOLoader primary, BepInEx mirror)
+**Version:** `0.6.0` (NOLoader primary, BepInEx mirror)
 
 
 
@@ -175,24 +175,6 @@ Extends DeepFreeze with full cosmetic shutdown on the same whitelist (`MpPresent
 3. Incoming missile from >40 km — exempt, motor particles visible.
 4. Fly toward frozen unit — deopt at ≤40 km, no stuck mesh.
 5. Profiler: `visualDeep=` grows with frozen count; `cosmeticLights=` on missile/aircraft freeze.
-
-### v0.6.4 — Mid-zone component budget (flight FPS)
-
-Fixes the v0.6.2 blind spot: **VisualUpdate** was strided in 800–4000 m, but **remote components** (engines, gear, surfaces) still ran every frame.
-
-- **`component_mid_onscreen_stride=1`** — mirrors `visual_mid_onscreen_stride` for the 800–4000 m band (no new IL on hot `Update` paths).
-- **`MpMotionBudget`** — when local speed ≥ `motion_speed_threshold_mps` (80), scales presentation full/near zones by `motion_zone_scale` (0.85) for skip decisions only.
-- **`JetNozzle::SlowUpdate`** — far/low-detail skip (same pattern as `TurbineEngine`), 59 IL patches total.
-- **Not included (v0.6.3 lesson):** `GroundVehicle`/`FlareEjector`/`ChaffEjector` Update IL, `grass_position_buffer_percent < 1`.
-
-Profiler: watch `compMid=` and `jetNozzle=`; rollback `component_mid_onscreen_stride=0` if gear/surface stutter.
-
-#### v0.6.4 test checklist
-
-1. Full restart, dedicated ~20p — `[MpOpt] v0.6.4` with `compMid=` rising in flight.
-2. Flight vs v0.6.2 baseline (~40 FPS) — target **43–45 FPS**; hover ≥45.
-3. If FPS drops — set `motion_stride_enabled=0` or `component_mid_onscreen_stride=0` and retest.
-4. Optional ini micro (only if still short): `presentation_near_m=750`, `presentation_full_m=350`, `fx_max_distance_m=1300`, `visual_update_stride=5` — **one key at a time**.
 
 
 

@@ -22,16 +22,14 @@ namespace NOLoader.MultiplayerClientSideOptimization
                 return false;
 
             float dist = MpPatchGuard.DistanceToObserver(unit);
-            float fullM = MpMotionBudget.GetEffectivePresentationFullM();
-            float nearM = MpMotionBudget.GetEffectivePresentationNearM();
 
-            if (dist <= fullM)
+            if (dist <= MpConfig.PresentationFullM)
                 return ShouldSkipFullZoneVisual(unit, worldPosition);
 
             int stride = MpConfig.VisualUpdateStride;
             int slot = GetUnitSlot(unit);
 
-            if (dist <= nearM)
+            if (dist <= MpConfig.PresentationNearM)
             {
                 if (stride <= 1)
                     return false;
@@ -79,10 +77,7 @@ namespace NOLoader.MultiplayerClientSideOptimization
             if (dist > MpConfig.PresentationFarM)
                 return true;
 
-            float fullM = MpMotionBudget.GetEffectivePresentationFullM();
-            float nearM = MpMotionBudget.GetEffectivePresentationNearM();
-
-            if (dist <= fullM)
+            if (dist <= MpConfig.PresentationFullM)
             {
                 if (MpConfig.ComponentFullOffscreenSkip && MpPatchGuard.IsOffScreen(unit.transform.position))
                 {
@@ -93,49 +88,15 @@ namespace NOLoader.MultiplayerClientSideOptimization
                 return false;
             }
 
-            int stride = MpConfig.ComponentUpdateStride;
-            int slot = GetUnitSlot(unit);
-
-            if (dist <= nearM)
-            {
-                if (stride <= 1)
-                    return false;
-
-                return Time.frameCount % stride != slot % stride;
-            }
-
-            return ShouldSkipMidZoneComponent(unit, stride, slot);
-        }
-
-        private static bool ShouldSkipMidZoneComponent(Unit unit, int stride, int slot)
-        {
-            if (stride <= 1)
-            {
-                if (MpConfig.ComponentMidOnscreenStride)
-                {
-                    MpStats.ComponentMidZoneSkipped++;
-                    return true;
-                }
-
-                return MpPatchGuard.IsOffScreen(unit.transform.position);
-            }
-
-            if (Time.frameCount % stride != slot % stride)
+            if (dist > MpConfig.PresentationNearM)
                 return false;
 
-            if (MpConfig.ComponentMidOnscreenStride)
-            {
-                MpStats.ComponentMidZoneSkipped++;
-                return true;
-            }
+            int stride = MpConfig.ComponentUpdateStride;
+            if (stride <= 1)
+                return false;
 
-            if (MpPatchGuard.IsOffScreen(unit.transform.position))
-            {
-                MpStats.ComponentMidZoneSkipped++;
-                return true;
-            }
-
-            return false;
+            int slot = GetUnitSlot(unit);
+            return Time.frameCount % stride != slot % stride;
         }
 
         private static bool ShouldSkipDeepVisualUpdate(Unit unit)

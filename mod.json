@@ -4,7 +4,7 @@
 
   "guid": "a7b8c9d0e1f24365869708192a3b4c5d",
 
-  "version": "0.6.4",
+  "version": "0.6.2",
 
   "name": "Multiplayer Client-Side Optimization",
 
@@ -63,18 +63,6 @@
       "method": "PrefixSkip",
 
       "expectedSignatureHash": "AC2C9C3548EBF3D0"
-
-    },
-
-    {
-
-      "target": "JetNozzle::SlowUpdate",
-
-      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.PresentationVfxPatches::JetNozzleSlowUpdatePrefixSkip",
-
-      "method": "PrefixSkip",
-
-      "expectedSignatureHash": "00DD630F183DACEC"
 
     },
 
