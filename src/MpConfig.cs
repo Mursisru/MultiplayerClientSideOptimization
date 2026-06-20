@@ -36,6 +36,7 @@ namespace NOLoader.MultiplayerClientSideOptimization
         internal static float DeepFreezeMinM { get; private set; } = 40000f;
         internal static float DeepFreezeScanIntervalS { get; private set; } = 1f;
         internal static int DeepFreezeDeoptStride { get; private set; } = 2;
+        internal static int DeepFreezeApplyPerScan { get; private set; } = 10;
         internal static float IncomingMissileMaxM { get; private set; } = 80000f;
         internal static float IncomingMissileDotMin { get; private set; } = 0.65f;
         internal static bool DeepFreezeDisableLights { get; private set; } = true;
@@ -93,6 +94,11 @@ namespace NOLoader.MultiplayerClientSideOptimization
             DeepFreezeDeoptStride = cfg.GetInt(Section, "deep_freeze_deopt_stride", 2);
             if (DeepFreezeDeoptStride < 1)
                 DeepFreezeDeoptStride = 1;
+            DeepFreezeApplyPerScan = cfg.GetInt(Section, "deep_freeze_apply_per_scan", 10);
+            if (DeepFreezeApplyPerScan < 1)
+                DeepFreezeApplyPerScan = 1;
+            if (DeepFreezeApplyPerScan > 64)
+                DeepFreezeApplyPerScan = 64;
             IncomingMissileMaxM = cfg.GetFloat(Section, "incoming_missile_max_m", 80000f);
             IncomingMissileDotMin = cfg.GetFloat(Section, "incoming_missile_dot_min", 0.65f);
             DeepFreezeDisableLights = cfg.GetBool(Section, "deep_freeze_disable_lights", true);

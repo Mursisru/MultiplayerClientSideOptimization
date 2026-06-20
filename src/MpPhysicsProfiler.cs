@@ -15,7 +15,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
     internal static class MpPhysicsProfiler
 
     {
-        private static bool _debugSnapshotLogged;
 
         internal static void ReportIfDue(float dt)
 
@@ -125,7 +124,7 @@ namespace NOLoader.MultiplayerClientSideOptimization
 
             var sb = new StringBuilder(512);
 
-            sb.Append("[MpOpt] v0.6.0 units=").Append(UnitRegistry.allUnits.Count)
+            sb.Append("[MpOpt] v0.6.2 units=").Append(UnitRegistry.allUnits.Count)
 
                 .Append(" localAc=").Append(localAircraft)
 
@@ -164,8 +163,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
                 .Append(" visualDeep=").Append(MpStats.VisualDeepSkipped)
                 .Append(" cosmeticBeh=").Append(MpStats.CosmeticBehavioursDisabled)
                 .Append(" cosmeticLights=").Append(MpStats.CosmeticLightsDisabled)
-                .Append(" cosmeticBeh=").Append(MpStats.CosmeticBehavioursDisabled)
-                .Append(" cosmeticLights=").Append(MpStats.CosmeticLightsDisabled)
                 .Append(" visualFull=").Append(MpStats.VisualFullZoneSkipped)
                 .Append(" compFull=").Append(MpStats.ComponentFullZoneSkipped)
 
@@ -180,28 +177,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
 
 
             LoaderLog.Write(sb.ToString());
-
-            // #region agent log
-            if (!_debugSnapshotLogged)
-            {
-                _debugSnapshotLogged = true;
-                MpDebugTrace.Log(
-                    "H3",
-                    "MpPhysicsProfiler.cs:LogSnapshot",
-                    "first profiler snapshot",
-                    "{\"units\":" + MpDebugTrace.I(UnitRegistry.allUnits.Count)
-                    + ",\"players\":" + MpDebugTrace.I(players)
-                    + ",\"fixedMs\":" + MpDebugTrace.F(fixedMs)
-                    + ",\"lateMs\":" + MpDebugTrace.F(lateMs)
-                    + ",\"sendMs\":" + MpDebugTrace.F(sendMs)
-                    + ",\"reservedMb\":" + MpDebugTrace.I(MpMemoryBudget.ReservedMb)
-                    + ",\"frozen\":" + MpDebugTrace.I(MpDeepFreezeManager.FrozenCount)
-                    + ",\"visualSkipped\":" + MpDebugTrace.L(MpStats.VisualUpdateSkipped)
-                    + ",\"visualDeep\":" + MpDebugTrace.L(MpStats.VisualDeepSkipped)
-                    + ",\"cosmeticBeh\":" + MpDebugTrace.L(MpStats.CosmeticBehavioursDisabled)
-                    + ",\"active\":" + MpDebugTrace.B(MpSessionState.Active) + "}");
-            }
-            // #endregion
 
         }
 

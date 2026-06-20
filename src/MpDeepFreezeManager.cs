@@ -11,7 +11,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
         private static readonly List<PersistentID> DeoptKeys = new List<PersistentID>(64);
         private static float _scanAccumulator;
         private static int _deoptFrameCounter;
-        private static bool _debugScanLogged;
 
         internal static int FrozenCount => Frozen.Count;
 
@@ -35,8 +34,14 @@ namespace NOLoader.MultiplayerClientSideOptimization
             if (!GameManager.GetLocalAircraft(out Aircraft local) || local == null)
                 return;
 
+            int appliedThisScan = 0;
+            int applyLimit = MpConfig.DeepFreezeApplyPerScan;
+
             foreach (Unit unit in UnitRegistry.allUnits)
             {
+                if (appliedThisScan >= applyLimit)
+                    break;
+
                 if (unit == null)
                     continue;
 
@@ -56,21 +61,8 @@ namespace NOLoader.MultiplayerClientSideOptimization
 
                 Frozen[id] = state;
                 MpStats.DeepFreezeApply++;
+                appliedThisScan++;
             }
-
-            // #region agent log
-            if (!_debugScanLogged)
-            {
-                _debugScanLogged = true;
-                MpDebugTrace.Log(
-                    "H4",
-                    "MpDeepFreezeManager.cs:TickScan",
-                    "first deep freeze scan",
-                    "{\"frozenCount\":" + MpDebugTrace.I(Frozen.Count)
-                    + ",\"freezeApplyTotal\":" + MpDebugTrace.L(MpStats.DeepFreezeApply)
-                    + ",\"allUnits\":" + MpDebugTrace.I(UnitRegistry.allUnits.Count) + "}");
-            }
-            // #endregion
         }
 
         internal static void TickDeopt()
