@@ -124,7 +124,7 @@ namespace NOLoader.MultiplayerClientSideOptimization
 
             var sb = new StringBuilder(512);
 
-            sb.Append("[MpOpt] v0.6.2 units=").Append(UnitRegistry.allUnits.Count)
+            sb.Append("[MpOpt] v0.6.4 units=").Append(UnitRegistry.allUnits.Count)
 
                 .Append(" localAc=").Append(localAircraft)
 
@@ -165,6 +165,7 @@ namespace NOLoader.MultiplayerClientSideOptimization
                 .Append(" cosmeticLights=").Append(MpStats.CosmeticLightsDisabled)
                 .Append(" visualFull=").Append(MpStats.VisualFullZoneSkipped)
                 .Append(" compFull=").Append(MpStats.ComponentFullZoneSkipped)
+                .Append(" compMid=").Append(MpStats.ComponentMidZoneSkipped)
 
                 .Append(" rb=").Append(MpStats.RbApplySkipped)
 
@@ -172,7 +173,8 @@ namespace NOLoader.MultiplayerClientSideOptimization
 
                 .Append(" weapon=").Append(MpStats.WeaponShellSkipped)
 
-                .Append(" vapor=").Append(MpStats.VaporSkipped);
+                .Append(" vapor=").Append(MpStats.VaporSkipped)
+                .Append(" jetNozzle=").Append(MpStats.JetNozzleSlowUpdateSkipped);
 
 
 
