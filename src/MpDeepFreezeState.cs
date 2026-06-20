@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Mirage;
 using UnityEngine;
 
@@ -108,7 +108,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
 
                 _behaviours.Add(new BehaviourEntry(behaviour, true));
                 behaviour.enabled = false;
-                MpStats.CosmeticBehavioursDisabled++;
             }
         }
 
@@ -198,7 +197,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
 
                 _lights.Add(new LightEntry(light, true));
                 light.enabled = false;
-                MpStats.CosmeticLightsDisabled++;
             }
         }
 

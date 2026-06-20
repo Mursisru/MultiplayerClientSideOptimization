@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using Mirage;
 using NuclearOption.DebugScripts;
@@ -91,7 +91,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
 
                     if (useBudget && TrySkipTransform(nt, out Unit? unit))
                     {
-                        MpStats.BatcherVisualIterSkipped++;
                         continue;
                     }
 
@@ -112,7 +111,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
 
                     if (useBudget && TrySkipTransform(nt, out Unit? unit))
                     {
-                        MpStats.BatcherVisualIterSkipped++;
                         continue;
                     }
 
@@ -139,17 +137,12 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
 
             if (MpDeepFreezeManager.IsFrozen(unit))
             {
-                MpStats.BatcherVisualIterSkipped++;
-                MpStats.VisualDeepSkipped++;
-                MpStats.SnapshotRemoveOldSkipped++;
                 return true;
             }
 
             if (!MpVisualBudget.ShouldSkipVisualUpdate(unit, unit.transform.position))
                 return false;
 
-            MpStats.VisualUpdateSkipped++;
-            MpStats.SnapshotRemoveOldSkipped++;
             return true;
         }
 

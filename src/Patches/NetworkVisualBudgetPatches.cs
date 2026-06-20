@@ -1,4 +1,4 @@
-using NuclearOption.NetworkTransforms;
+﻿using NuclearOption.NetworkTransforms;
 using UnityEngine;
 
 namespace NOLoader.MultiplayerClientSideOptimization.Patches
@@ -14,7 +14,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!ShouldSkip(aircraft))
                 return true;
 
-            MpStats.VisualUpdateSkipped++;
             return false;
         }
 
@@ -27,7 +26,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!ShouldSkip(missile))
                 return true;
 
-            MpStats.VisualUpdateSkipped++;
             return false;
         }
 
@@ -40,7 +38,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!ShouldSkip(unit))
                 return true;
 
-            MpStats.VisualUpdateSkipped++;
             return false;
         }
 
@@ -53,7 +50,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!ShouldSkip(vehicle))
                 return true;
 
-            MpStats.VisualUpdateSkipped++;
             return false;
         }
 
@@ -66,7 +62,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!ShouldSkip(ship))
                 return true;
 
-            MpStats.VisualUpdateSkipped++;
             return false;
         }
 

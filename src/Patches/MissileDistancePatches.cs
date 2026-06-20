@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NOLoader.MultiplayerClientSideOptimization.Patches
 {
@@ -12,7 +12,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpPatchGuard.IsBeyondOpticalRange(__instance))
                 return true;
 
-            MpStats.MissileMotorThrustSkipped++;
             return false;
         }
 
@@ -24,7 +23,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpPatchGuard.IsBeyondOpticalRange(__instance))
                 return true;
 
-            MpStats.MissileFixedUpdateSkipped++;
             return false;
         }
 
@@ -45,7 +43,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (flightSound != null)
             {
                 flightSound.volume = 0f;
-                MpStats.MissileFlightSoundMuted++;
             }
         }
     }

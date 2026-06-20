@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NOLoader.MultiplayerClientSideOptimization.Patches
 {
@@ -63,7 +63,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpReflection.IsAircraftSpawnedInPosition(__instance))
                 return true;
 
-            MpStats.WeaponShellSkipped++;
             return false;
         }
 
@@ -72,7 +71,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpVisualBudget.ShouldSkipPresentationComponent(unit))
                 return false;
 
-            MpStats.WeaponShellSkipped++;
             return true;
         }
 
@@ -81,7 +79,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (aircraft == null || !MpPatchGuard.IsPresentationUnit(aircraft))
                 return false;
 
-            MpStats.WeaponShellSkipped++;
             return true;
         }
     }

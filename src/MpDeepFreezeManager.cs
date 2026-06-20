@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace NOLoader.MultiplayerClientSideOptimization
@@ -60,7 +60,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
                     continue;
 
                 Frozen[id] = state;
-                MpStats.DeepFreezeApply++;
                 appliedThisScan++;
             }
         }
@@ -101,7 +100,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
                 {
                     state.Restore(unit, resync: true);
                     Frozen.Remove(id);
-                    MpStats.DeepFreezeDeopt++;
                 }
             }
         }

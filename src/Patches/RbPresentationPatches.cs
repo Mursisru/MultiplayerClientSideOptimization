@@ -1,4 +1,4 @@
-using NuclearOption.NetworkTransforms;
+﻿using NuclearOption.NetworkTransforms;
 
 namespace NOLoader.MultiplayerClientSideOptimization.Patches
 {
@@ -12,7 +12,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
                 return true;
 
             MpRbPresentationHelper.ApplyAircraftTransformOnly(__instance, snapshot);
-            MpStats.RbApplySkipped++;
             return false;
         }
 
@@ -24,7 +23,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
                 return true;
 
             MpRbPresentationHelper.ApplyMissileTransformOnly(__instance, snapshot);
-            MpStats.RbApplySkipped++;
             return false;
         }
 
@@ -36,7 +34,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
                 return true;
 
             MpRbPresentationHelper.ApplyGroundVehicleTransformOnly(__instance, snapshot);
-            MpStats.RbApplySkipped++;
             return false;
         }
 
@@ -49,7 +46,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
                 return true;
 
             MpRbPresentationHelper.ApplyUnitTransformOnly(__instance, snapshot);
-            MpStats.RbApplySkipped++;
             return false;
         }
 

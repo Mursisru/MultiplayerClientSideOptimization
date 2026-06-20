@@ -1,4 +1,4 @@
-using NuclearOption.NetworkTransforms;
+﻿using NuclearOption.NetworkTransforms;
 
 namespace NOLoader.MultiplayerClientSideOptimization.Patches
 {
@@ -15,7 +15,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpVisualBudget.ShouldSkipVisualUpdate(unit, unit.transform.position))
                 return true;
 
-            MpStats.SnapshotRemoveOldSkipped++;
             return false;
         }
     }

@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using NOLoader.ModConfig;
 using NOLoader.MultiplayerClientSideOptimization;
 using NOLoader.MultiplayerClientSideOptimization.Patches;

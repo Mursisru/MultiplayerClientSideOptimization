@@ -12,7 +12,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\src\MpConfig.cs" Link="Shared\MpConfig.cs" />
-    <Compile Include="..\..\src\MpStats.cs" Link="Shared\MpStats.cs" />
     <Compile Include="..\..\src\MpSessionState.cs" Link="Shared\MpSessionState.cs" />
     <Compile Include="..\..\src\MpPatchGuard.cs" Link="Shared\MpPatchGuard.cs" />
     <Compile Include="..\..\src\MpVisualBudget.cs" Link="Shared\MpVisualBudget.cs" />

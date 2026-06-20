@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NOLoader.MultiplayerClientSideOptimization.Patches
 {
@@ -16,7 +16,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpPatchGuard.ShouldSkipPresentationVfx(aircraft))
                 return true;
 
-            MpStats.VaporSkipped++;
             return false;
         }
 
@@ -32,7 +31,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpPatchGuard.ShouldSkipPresentationVfx(aircraft))
                 return true;
 
-            MpStats.DownwashSkipped++;
             return false;
         }
 
@@ -51,7 +49,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpPatchGuard.IsBeyondPresentationFar(aircraft))
                 return true;
 
-            MpStats.DownwashSkipped++;
             return false;
         }
 
@@ -73,7 +70,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpPatchGuard.IsLowDetail(aircraft) && !MpPatchGuard.IsBeyondPresentationFar(aircraft))
                 return true;
 
-            MpStats.TurbineSkipped++;
             return false;
         }
 
@@ -89,7 +85,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (ShouldSkipDeepCull(ship))
                 return false;
 
-            MpStats.ShipPropulsionSkipped++;
             return false;
         }
 
@@ -104,7 +99,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpPresentationExemptGuard.ShouldApplyDeepCull(unit, local))
                 return false;
 
-            MpStats.DeepCullVfxSkipped++;
             return true;
         }
     }

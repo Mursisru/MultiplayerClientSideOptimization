@@ -1,4 +1,4 @@
-namespace NOLoader.MultiplayerClientSideOptimization.Patches
+﻿namespace NOLoader.MultiplayerClientSideOptimization.Patches
 {
     internal static class AircraftPartialPatches
     {
@@ -13,7 +13,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (__instance.countermeasureTrigger)
                 __instance.countermeasureManager.DeployCountermeasure(__instance);
 
-            MpStats.AircraftFixedUpdateSkipped++;
             return false;
         }
 
@@ -25,7 +24,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpPatchGuard.IsPresentationUnit(__instance))
                 return true;
 
-            MpStats.ShakeSkipped++;
             return false;
         }
     }

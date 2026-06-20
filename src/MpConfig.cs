@@ -1,4 +1,4 @@
-using NOLoader.ModConfig;
+﻿using NOLoader.ModConfig;
 
 namespace NOLoader.MultiplayerClientSideOptimization
 {
@@ -6,8 +6,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
     {
         internal const string Section = "MpOpt";
 
-        internal static bool ProfilerEnabled { get; private set; } = true;
-        internal static int ReportIntervalS { get; private set; } = 5;
         internal static float OpticalRangeFallbackM { get; private set; } = 25000f;
         internal static float OpticalRangeCapM { get; private set; } = 12000f;
         internal static float PresentationFarM { get; private set; } = 4000f;
@@ -25,7 +23,7 @@ namespace NOLoader.MultiplayerClientSideOptimization
         internal static bool ComponentFullOffscreenSkip { get; private set; } = true;
 
         internal static bool MemoryBudgetEnabled { get; private set; } = true;
-        internal static int MemoryReservoirMb { get; private set; } = 4096;
+        internal static int MemoryReservoirMb { get; private set; } = 5120;
         internal static bool AssetWarmEnabled { get; private set; } = true;
         internal static int TextureMipmapLimit { get; private set; }
         internal static float LodBiasMin { get; private set; } = 1.5f;
@@ -44,8 +42,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
 
         internal static void Load(ModIniConfig cfg)
         {
-            ProfilerEnabled = cfg.GetBool(Section, "profiler", true);
-            ReportIntervalS = cfg.GetInt(Section, "report_interval_s", 5);
             OpticalRangeFallbackM = cfg.GetFloat(Section, "optical_range_m", 25000f);
             OpticalRangeCapM = cfg.GetFloat(Section, "optical_range_cap_m", 12000f);
             PresentationFarM = cfg.GetFloat(Section, "presentation_far_m", 4000f);
@@ -71,7 +67,7 @@ namespace NOLoader.MultiplayerClientSideOptimization
             ComponentFullOffscreenSkip = cfg.GetBool(Section, "component_full_offscreen_skip", true);
 
             MemoryBudgetEnabled = cfg.GetBool(Section, "memory_budget", true);
-            MemoryReservoirMb = cfg.GetInt(Section, "memory_reservoir_mb", 4096);
+            MemoryReservoirMb = cfg.GetInt(Section, "memory_reservoir_mb", 5120);
             if (MemoryReservoirMb < 0)
                 MemoryReservoirMb = 0;
             if (MemoryReservoirMb > 8192)

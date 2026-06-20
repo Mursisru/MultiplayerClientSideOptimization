@@ -1,426 +1,163 @@
-# Multiplayer Client-Side Optimization (Nuclear Option)
-
-
+# Multiplayer Client-Side Optimization (MpClientOpt)
 
 [![Nuclear Option](https://img.shields.io/badge/Game-Nuclear%20Option-blue)](https://store.steampowered.com/app/2168680/Nuclear_Option/)
+[![Version](https://img.shields.io/badge/Version-v0.6.5-green)](https://github.com/Mursisru/MultiplayerClientSideOptimization/releases/tag/v0.6.5)
 
-[![Status](https://img.shields.io/badge/Status-v0.6.0-green)]()
+Client-side performance mod for **Nuclear Option** dedicated multiplayer clients.
 
-
-
-Client-side performance mod for **Nuclear Option** multiplayer on **dedicated servers only** (pure client, never host).
-
-
-
-**Version:** `0.6.0` (NOLoader primary, BepInEx mirror)
-
-
+**Stable release:** `v0.6.5` — same optimization core as `v0.6.2`, no runtime diagnostics, 5 GB RAM reservoir.
 
 ---
 
+## Scope
 
-
-## Target scenario
-
-
-
-| | |
-
-|---|---|
-
-| **In scope** | Dedicated server client → `Server.Active == false` → trim **remoteSim** presentation shell |
-
-| **Out of scope** | Host, listen-server, headless server, `Server.Active == true` |
-
-
-
-On dedicated client: **one** `LocalSim` aircraft (yours); all other aircraft, missiles, and mission units are presentation-only (`remoteSim`).
-
-
+| In scope | Out of scope |
+|----------|--------------|
+| Dedicated server **client** (`Server.Active == false`) | Host / listen-server / headless server |
+| Trim **remoteSim** presentation shell (other players, missiles, mission units) | Local aircraft (`LocalSim`) |
+| Distance-tiered visuals, components, DeepFreeze (>40 km) | Network sync, snapshots, Cmd/Rpc |
 
 The mod **disables itself** when `NetworkManagerNuclearOption.i.Server.Active` is true.
 
-
-
 ---
-
-
-
-## What it optimizes (desync-safe)
-
-
-
-| Zone | Patches |
-
-|------|---------|
-
-| Green | `VaporEffect`, `DownwashEffect`, `TurbineEngine`, `ShipPropulsion` — skip on remote + low detail / far |
-
-| Green | `Aircraft.FixedUpdate` — CM deploy kept; scrape/shake/debug path skipped on presentation units |
-
-| Green | `Aircraft.ShakeAircraft`, `CheckSpawnedInPosition` (after first spawn) |
-
-| Green | Remote aircraft components — engines, gear, props, FuelTank, RotorShaft, Pilot — **tiered** by distance |
-
-| Green | **Turret**, **Gun**, **Laser**, **JammingPod**, **Radar**, **Repulsorlift**, **AirCushion**, **Transmission** on presentation units |
-
-| Yellow | **Missile FixedUpdate** skip beyond optical (timeSinceSpawn preserved) |
-
-| Yellow | `Missile.MotorThrust` — skip beyond dynamic optical range |
-
-| Yellow | `NetworkTransform::VisualUpdate` budget + **`SnapshotBuffer::RemoveOld`** skip when visual skipped |
-
-| Yellow | `ApplySnapshot` RB throttle — transform-only apply (optional, `rb_move_throttle=0` default) |
-
-| Green | `ParticleEffectManager.EmitParticles`, `DamageParticles.Update` — distance cap |
-
-
-
-**Never touched:** sync Hz, snapshot receive/buffer **Insert**, Cmd/Rpc, SyncVars, `UpdateGridNow`, ENGINE_TWEAKER HUD/map budgets.
-
-
-
----
-
-
-
-## v0.3 highlights
-
-
-
-- **RemoveOld skip:** when VisualUpdate is budget-skipped, `SnapshotBuffer.RemoveOld` is also skipped (fixes O(N) LateUpdate waste).
-
-- **Tiered component shell:** full ≤600 m, stride 600–1000 m, skip >4 km / low detail.
-
-- **Weapon/aux shell:** Gun/Laser/JammingPod/Radar linecast paths throttled on presentation units.
-
-- **RAM cap:** `memory_reservoir_mb=4096` (~5.5 GB total process); do not raise above 4096 in v0.3.
-
-
-
-### v0.3.1 (18-player FPS push)
-
-
-
-- **SendTransformBatcher::VisualUpdate PrefixSkip:** custom loop with early-continue — distant transforms never enter `VisualUpdate`/`RemoveOld` (watch `batcher=` in profiler).
-
-- **ControlSurface::UpdateJobFields** skip on presentation tier.
-
-- **Stride in near zone:** units within `presentation_near_m` still round-robin skip via `visual_update_stride=3`.
-
-- Defaults tightened: `presentation_near_m=1000`, `presentation_full_m=600`, `rb_move_throttle=1`.
-
-
-
-### v0.4.0 — DeepFreeze (>40 km)
-
-
-
-Runtime manager (no new IL patches) for presentation units **beyond 40 km**:
-
-
-
-- **Slow scan (~1 Hz):** freeze eligible remote units (`rb.isKinematic`, disable sim behaviours, mute audio, stop particles, disable colliders/animators).
-
-- **Fast deopt (every 2–3 frames):** instant restore when unit enters whitelist (≤40 km, your target, weapon/radar lock on you, incoming missile).
-
-- **Resync on deopt:** position/velocity from NT snapshot buffer — no Insert/Cmd/Rpc.
-
-- Works **alongside** v0.3.1 presentation shell; primary FPS gain in hot combat still from v0.3.x tiers.
-
-
-
-**Whitelist (never freeze if any true):** dist ≤ `deep_freeze_min_m`, in your target list, holds lock/track on you, incoming missile toward you.
-
-
-
-**Scope:** `UnitRegistry` only (aircraft, missiles, vehicles, ships). Gun `BulletSim` shells not included.
-
-
-
-#### v0.4 test checklist
-
-
-
-1. Dedicated client, busy mission — `[MpOpt] v0.4.0` with `frozen=` > 0 when units exist >40 km away.
-
-2. Fly toward frozen unit — `deopt=` rises at ≤40 km, no visible teleport.
-
-3. Select distant unit as target — it stays deopt while targeted.
-
-4. Incoming missile on local aircraft — missile exempt from freeze.
-
-5. CM deploy / optical missile track — manual desync smoke test.
-
-
-
-### v0.6.0 — Deep Cosmetic Cull (>40 km)
-
-
-
-Extends DeepFreeze with full cosmetic shutdown on the same whitelist (`MpPresentationExemptGuard`):
-
-- **All non-network `Behaviour`** disabled (VaporEffect, DownwashEffect, DamageParticles, sim scripts, etc.)
-- **Lights**, **TrailRenderer**, **LineRenderer**, legacy **Animation** snapshot-off
-- **VisualUpdate skip** for frozen / deep non-exempt units (batch + NT patches)
-- **VFX IL patches** aligned to `ShouldApplyDeepCull` at >40 km
-- Optional `deep_freeze_disable_renderers=1` (pop-in risk on zoom)
-
-**Whitelist (never cull if any true):** dist ≤ `deep_freeze_min_m`, your target, lock/track on you, incoming missile.
-
-#### v0.6 test checklist
-
-1. Dedicated client, units >40 km — `[MpOpt] v0.6.0` with `frozen=` > 0, `cosmeticBeh=` rising on scan.
-2. Target distant unit — deopt, anim/particles/lights restore.
-3. Incoming missile from >40 km — exempt, motor particles visible.
-4. Fly toward frozen unit — deopt at ≤40 km, no stuck mesh.
-5. Profiler: `visualDeep=` grows with frozen count; `cosmeticLights=` on missile/aircraft freeze.
-
-
-
----
-
-
 
 ## Requirements
 
-
-
 - [Nuclear Option](https://store.steampowered.com/app/2168680/Nuclear_Option/) (Steam)
-
 - [NOLoader](https://github.com/at747/NOLoader_Engine) (primary loader)
-
 - Sibling repo: `../NOLoader_Engine`
-
-- Optional: BepInEx 5 in game folder for runtime deploy of the BepInEx build
-
-
+- Optional: BepInEx 5 mirror build (see [Build](#build))
 
 ---
 
+## Install
 
+1. Close the game.
+2. From this repository:
+
+```powershell
+.\scripts\deploy-mp-opt-mod.ps1
+```
+
+3. Install path: `Nuclear Option\NOLoader\mods\MpClientOpt\`
+4. Join a **dedicated server** mission (not host).
+
+If you already have `mod.ini` in the game folder, delete it or merge keys manually — deploy overwrites `mod.ini` on each run.
+
+---
 
 ## Build
 
-
-
 ```powershell
-
 dotnet build NOLoader.MultiplayerClientSideOptimization.csproj -c DEV_SDK
-
 ```
 
-
-
-BepInEx mirror (needs `BepInEx/lib/` — run once):
-
-
+BepInEx mirror (run `.\scripts\fetch-bepinex-libs.ps1` once):
 
 ```powershell
-
-.\scripts\fetch-bepinex-libs.ps1
-
 dotnet build BepInEx\MultiplayerClientSideOptimization\MultiplayerClientSideOptimization.BepInEx.csproj -c Release
-
 ```
 
-
-
 ---
-
-
-
-## Deploy (NOLoader)
-
-
-
-Close the game, then:
-
-
-
-```powershell
-
-.\scripts\deploy-mp-opt-mod.ps1
-
-```
-
-
-
-Install path: `Nuclear Option\NOLoader\mods\MpClientOpt\`
-
-
-
-After deploy, set `mod.ini` keys if an older ini exists (deploy only copies ini on first install).
-
-
-
----
-
-
 
 ## Configuration (`mod.ini`)
 
-
+All keys live under `[MpOpt]`. Defaults match the shipped `mod.ini`.
 
 ```ini
-
 [MpOpt]
-
-profiler=1
-
-report_interval_s=5
-
-optical_range_m=25000
-
-optical_range_cap_m=12000
-
 presentation_far_m=4000
-
-presentation_near_m=1000
-
-presentation_full_m=600
-
-fx_max_distance_m=2000
-
+presentation_near_m=800
+presentation_full_m=400
+visual_update_stride=4
+component_update_stride=3
 rb_move_throttle=1
-
-rb_move_stride=4
-
-rb_physics_sleep_m=5000
-
-visual_update_stride=3
-
-visual_mid_onscreen_stride=1
-
-component_update_stride=2
-
 memory_budget=1
-
-memory_reservoir_mb=4096
-
+memory_reservoir_mb=5120
 asset_warm=1
-
-texture_mipmap_limit=0
-
 lod_bias_min=1.5
-
 grass_position_buffer_percent=1
-
-grass_visible_buffer_percent=0.5
-
 deep_freeze=1
-
 deep_freeze_min_m=40000
-
-deep_freeze_scan_interval_s=1
-
-deep_freeze_deopt_stride=2
-
-incoming_missile_max_m=80000
-
-incoming_missile_dot_min=0.65
-
-deep_freeze_disable_lights=1
-
-deep_freeze_disable_renderers=0
-
 ```
 
+### Key settings
 
-
-| Key | Default | Notes |
-
-|-----|---------|-------|
-
-| `presentation_full_m` | 600 | Full component/visual fidelity zone |
-
-| `presentation_near_m` | 1000 | Near zone; VisualUpdate still stride-skipped |
-
+| Key | Default | Purpose |
+|-----|---------|---------|
+| `presentation_full_m` | 400 | Full-fidelity zone (m) |
+| `presentation_near_m` | 800 | Near zone; stride applies beyond full |
 | `presentation_far_m` | 4000 | Far skip tier |
-
-| `component_update_stride` | 2 | Mid-zone (full..near) component FU stride |
-
-| `visual_update_stride` | 3 | Round-robin VisualUpdate skip (includes near zone) |
-
+| `visual_update_stride` | 4 | Round-robin `NetworkTransform::VisualUpdate` skip |
+| `component_update_stride` | 3 | Remote component FixedUpdate stride (mid zone) |
 | `rb_move_throttle` | 1 | Transform-only RB apply on presentation units |
+| `memory_reservoir_mb` | **5120** | Managed RAM reservoir (~5 GB); reduces GC stutter |
+| `memory_budget` | 1 | Enable reservoir + asset warm |
+| `asset_warm` | 1 | Hold encyclopedia prefab/material refs |
+| `lod_bias_min` | 1.5 | Clamp LOD bias (restored on unload) |
+| `deep_freeze` | 1 | Freeze presentation units beyond 40 km |
+| `deep_freeze_min_m` | 40000 | DeepFreeze distance threshold |
 
-| `memory_reservoir_mb` | **4096** | RAM cap v0.3 (~5.5 GB total process) |
-
-| `deep_freeze` | 1 | Enable DeepFreeze manager (>40 km) |
-
-| `deep_freeze_min_m` | 40000 | Freeze only beyond this distance |
-
-| `deep_freeze_deopt_stride` | 2 | Frames between fast deopt checks |
-
-| `incoming_missile_max_m` | 80000 | Heading-based incoming missile exempt range |
-
-| `deep_freeze_disable_lights` | 1 | Disable Light components on freeze |
-
-| `deep_freeze_disable_renderers` | 0 | Disable MeshRenderer/SkinnedMeshRenderer (opt-in) |
-
-
+Do **not** disable `memory_budget` on dedicated clients — v0.6.1 showed significant FPS loss without the reservoir.
 
 ---
 
+## What it optimizes (desync-safe)
 
+| Tier | Targets |
+|------|---------|
+| **Green** | VFX shell (`VaporEffect`, `DownwashEffect`, `TurbineEngine`, particles) on remote / far units |
+| **Green** | Remote aircraft components (engines, gear, surfaces, pilot) — distance tiered |
+| **Green** | Weapon aux shell (Gun, Laser, Radar, JammingPod, …) on presentation units |
+| **Yellow** | `NetworkTransform::VisualUpdate` + `SnapshotBuffer::RemoveOld` budget skip |
+| **Yellow** | Optional RB throttle — transform-only `ApplySnapshot` |
+| **Yellow** | Missile FixedUpdate / motor beyond optical range |
+| **Runtime** | DeepFreeze + cosmetic cull >40 km (whitelist: target, lock, incoming missile) |
 
-## Profiler
+### Never touched (red line)
 
+- `SnapshotBuffer::Insert`, `*NetworkTransform::Receive`
+- Cmd/Rpc, SyncVars, sync interval, `UpdateGridNow`
+- HUD / map / ENGINE_TWEAKER budgets
+- Ship `ApplyJobResults` / physics jobs
 
-
-Every `report_interval_s`, NOLoader ring log:
-
-
-
-```text
-
-[MpOpt] v0.6.0 units=… lateMs=… fixedMs=… visual=… removeOld=… batcher=… frozen=… visualDeep=… cosmeticBeh=… reservedMb=4096
-
-```
-
-
-
-Watch `batcher=`, `frozen=`, `visualDeep=`, `removeOld=` on busy missions — confirms presentation shell + DeepFreeze cosmetic cull are active.
-
-
+**58 IL patches** (NOLoader `mod.json`). Behavior matches verified stable `v0.6.2`.
 
 ---
 
+## DeepFreeze whitelist
 
+Units are **never** frozen/culled when any of these is true:
+
+- Distance ≤ `deep_freeze_min_m` (40 km)
+- In your target list
+- Weapon or radar lock on you
+- Incoming missile toward you (heading check)
+
+On deopt, position/velocity resync from NT snapshot buffer — no Insert/Cmd/Rpc.
+
+---
 
 ## Repository layout
 
-
-
 ```text
-
-src/MpBufferUnitMap.cs           SnapshotBuffer → Unit map for RemoveOld skip
-
-src/MpVisualBudget.cs            Visual + component tiered budget
-
-src/Patches/SnapshotBufferPatches.cs
-
-src/MpPresentationExemptGuard.cs   Unified whitelist (target/lock/incoming missile)
-
-src/MpDeepFreezeManager.cs         DeepFreeze scan/deopt (>40 km)
-
-src/MpDeepFreezeState.cs           Snapshot apply/restore + cosmetic cull
-
-src/Patches/ControlSurfaceJobPatches.cs
-
-mod.json                         45 IL patches (unchanged v0.4)
-
+src/MpVisualBudget.cs              Distance-tiered visual + component budget
+src/MpDeepFreezeManager.cs         Scan/deopt manager (>40 km)
+src/MpMemoryBudget.cs              RAM reservoir + graphics cache
+src/Patches/SendTransformBatcherRedirect.cs
+mod.json                           IL patch manifest (58 patches)
+mod.ini                            Default configuration
+scripts/deploy-mp-opt-mod.ps1      Build + deploy to game
 ```
-
-
 
 ---
 
+## Version history
 
+See [CHANGELOG.md](CHANGELOG.md).
+
+---
 
 ## License
 
-
-
 MIT — see [LICENSE](LICENSE).
-

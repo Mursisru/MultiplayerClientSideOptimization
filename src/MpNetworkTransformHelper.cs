@@ -1,4 +1,4 @@
-using NuclearOption.NetworkTransforms;
+﻿using NuclearOption.NetworkTransforms;
 
 namespace NOLoader.MultiplayerClientSideOptimization
 {

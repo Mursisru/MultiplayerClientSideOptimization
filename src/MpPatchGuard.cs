@@ -1,4 +1,4 @@
-using NuclearOption.Networking;
+﻿using NuclearOption.Networking;
 using UnityEngine;
 
 namespace NOLoader.MultiplayerClientSideOptimization
@@ -62,7 +62,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
 
             _opticalCacheTime = now;
             _cachedOpticalRangeM = ComputeOpticalRangeM();
-            MpStats.LastOpticalRangeM = _cachedOpticalRangeM;
             return _cachedOpticalRangeM;
         }
 
@@ -165,7 +164,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
 
             rb.isKinematic = true;
             rb.detectCollisions = false;
-            MpStats.MissileKinematicSleepApplied++;
         }
 
         private static float ComputeOpticalRangeM()

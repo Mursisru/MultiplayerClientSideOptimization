@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NOLoader.MultiplayerClientSideOptimization.Patches
 {
@@ -16,7 +16,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpVisualBudget.ShouldSkipPresentationComponent(aircraft))
                 return true;
 
-            MpStats.ControlSurfaceJobSkipped++;
             return false;
         }
     }

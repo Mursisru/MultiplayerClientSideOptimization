@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NOLoader.MultiplayerClientSideOptimization.Patches
 {
@@ -32,11 +32,9 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
 
             if (MpConfig.DeepFreezeEnabled && dist > MpConfig.DeepFreezeMinM)
             {
-                MpStats.EmitParticlesSkipped++;
                 return false;
             }
 
-            MpStats.EmitParticlesSkipped++;
             return false;
         }
 
@@ -59,7 +57,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpPatchGuard.IsBeyondFxRange(parent))
                 return true;
 
-            MpStats.DamageParticlesSkipped++;
             return false;
         }
 
@@ -74,7 +71,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpPresentationExemptGuard.ShouldApplyDeepCull(unit, local))
                 return false;
 
-            MpStats.DeepCullVfxSkipped++;
             return true;
         }
     }

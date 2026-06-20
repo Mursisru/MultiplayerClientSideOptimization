@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NOLoader.MultiplayerClientSideOptimization
 {
@@ -81,7 +81,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
             {
                 if (MpConfig.ComponentFullOffscreenSkip && MpPatchGuard.IsOffScreen(unit.transform.position))
                 {
-                    MpStats.ComponentFullZoneSkipped++;
                     return true;
                 }
 
@@ -103,7 +102,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
         {
             if (MpDeepFreezeManager.IsFrozen(unit))
             {
-                MpStats.VisualDeepSkipped++;
                 return true;
             }
 
@@ -120,7 +118,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
             if (MpPresentationExemptGuard.ShouldExempt(unit, local))
                 return false;
 
-            MpStats.VisualDeepSkipped++;
             return true;
         }
 
@@ -128,7 +125,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
         {
             if (MpConfig.VisualFullOffscreenSkip && MpPatchGuard.IsOffScreen(worldPosition))
             {
-                MpStats.VisualFullZoneSkipped++;
                 return true;
             }
 
@@ -140,7 +136,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
             if (Time.frameCount % fullStride == slot % fullStride)
                 return false;
 
-            MpStats.VisualFullZoneSkipped++;
             return true;
         }
 

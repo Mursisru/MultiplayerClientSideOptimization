@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NOLoader.MultiplayerClientSideOptimization.Patches
 {
@@ -57,7 +57,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpPatchGuard.ShouldSkipRemoteComponent(aircraft))
                 return false;
 
-            MpStats.RemoteComponentSkipped++;
             return true;
         }
 
@@ -66,7 +65,6 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpPatchGuard.ShouldSkipPresentationShell(unit))
                 return false;
 
-            MpStats.RemoteComponentSkipped++;
             return true;
         }
     }
