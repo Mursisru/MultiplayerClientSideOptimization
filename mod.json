@@ -1,0 +1,564 @@
+{
+
+  "id": "com.at747.multiplayerclientsideoptimization",
+
+  "guid": "a7b8c9d0e1f24365869708192a3b4c5d",
+
+  "version": "0.6.0",
+
+  "name": "Multiplayer Client-Side Optimization",
+
+  "assembly": "NOLoader.MultiplayerClientSideOptimization.dll",
+
+  "entryType": "NOLoader.MultiplayerClientSideOptimization.MultiplayerClientSideOptimizationMod",
+
+  "loadStage": "Mission",
+
+  "dependencies": [],
+
+  "patches": [
+
+    {
+
+      "target": "VaporEffect::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.PresentationVfxPatches::VaporEffectFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "3FE3B6DBBE2E8323"
+
+    },
+
+    {
+
+      "target": "DownwashEffect::Update",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.PresentationVfxPatches::DownwashEffectUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "F2F68E2AA52FC16C"
+
+    },
+
+    {
+
+      "target": "DownwashEffect::SlowUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.PresentationVfxPatches::DownwashEffectSlowUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "8E7C5B6B7E77E14C"
+
+    },
+
+    {
+
+      "target": "TurbineEngine::Update",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.PresentationVfxPatches::TurbineEngineUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "AC2C9C3548EBF3D0"
+
+    },
+
+    {
+
+      "target": "ShipPropulsion::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.PresentationVfxPatches::ShipPropulsionFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "26DA569761FB54F0"
+
+    },
+
+    {
+
+      "target": "Aircraft::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.AircraftPartialPatches::FixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "EADCE32077415384"
+
+    },
+
+    {
+
+      "target": "Aircraft::ShakeAircraft",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.AircraftPartialPatches::ShakeAircraftPrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "590592E8F684E757"
+
+    },
+
+    {
+
+      "target": "Missile::MotorThrust",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.MissileDistancePatches::MotorThrustPrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "41DEDB9AD56C7471"
+
+    },
+
+    {
+
+      "target": "Missile::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.MissileDistancePatches::FixedUpdatePostfix",
+
+      "method": "Postfix",
+
+      "expectedSignatureHash": "D2285C618B57442A"
+    },
+    {
+      "target": "Missile::FixedUpdate",
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.MissileDistancePatches::FixedUpdatePrefixSkip",
+      "method": "PrefixSkip",
+      "expectedSignatureHash": "D2285C618B57442A"
+
+    },
+
+    {
+
+      "target": "AircraftNetworkTransform::ApplySnapshot",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RbPresentationPatches::AircraftApplySnapshotPrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "084BEF5A8FF02968"
+
+    },
+
+    {
+
+      "target": "MissileNetworkTransform::ApplySnapshot",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RbPresentationPatches::MissileApplySnapshotPrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "4457FECC4AACA730"
+
+    },
+
+    {
+
+      "target": "GroundVehicleNetworkTransform::ApplySnapshot",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RbPresentationPatches::GroundVehicleApplySnapshotPrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "08744ED79F58F2EB"
+
+    },
+
+    {
+
+      "target": "UnitNetworkTransform::ApplySnapshot",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RbPresentationPatches::UnitApplySnapshotPrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "564335564F00578D"
+
+    },
+
+    {
+
+      "target": "AircraftNetworkTransform::VisualUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.NetworkVisualBudgetPatches::AircraftVisualUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "BB4035AEB8A3D44E"
+
+    },
+
+    {
+
+      "target": "MissileNetworkTransform::VisualUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.NetworkVisualBudgetPatches::MissileVisualUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "CB2CC1FE003CABC0"
+
+    },
+
+    {
+
+      "target": "UnitNetworkTransform::VisualUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.NetworkVisualBudgetPatches::UnitVisualUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "714615D6AA34C6A9"
+
+    },
+
+    {
+
+      "target": "GroundVehicleNetworkTransform::VisualUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.NetworkVisualBudgetPatches::GroundVehicleVisualUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "9EC9C71363B79C44"
+
+    },
+
+    {
+
+      "target": "ShipNetworkTransform::VisualUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.NetworkVisualBudgetPatches::ShipVisualUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "B11FB80C6B6D2F8C"
+
+    },
+
+    {
+
+      "target": "Turbofan::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RemoteComponentPatches::TurbofanFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "1E59D053A8B77FD3"
+
+    },
+
+    {
+
+      "target": "Turbojet::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RemoteComponentPatches::TurbojetFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "7494CB07BCDE1D9F"
+
+    },
+
+    {
+
+      "target": "PropFan::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RemoteComponentPatches::PropFanFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "57F0028377F3CEA0"
+
+    },
+
+    {
+
+      "target": "ConstantSpeedProp::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RemoteComponentPatches::ConstantSpeedPropFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "46642DCD4C66594F"
+
+    },
+
+    {
+
+      "target": "LandingGear::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RemoteComponentPatches::LandingGearFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "285C8EE35B0D1AFA"
+
+    },
+
+    {
+
+      "target": "HighLiftDevice::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RemoteComponentPatches::HighLiftDeviceFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "303DEA9EED9AD25E"
+
+    },
+
+    {
+
+      "target": "Airbrake::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RemoteComponentPatches::AirbrakeFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "4F84267C461C906E"
+
+    },
+
+    {
+
+      "target": "ControlSurfacePhysics::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RemoteComponentPatches::ControlSurfacePhysicsFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "709945F7207BBAA1"
+    },
+    {
+      "target": "FuelTank::FixedUpdate",
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RemoteComponentPatches::FuelTankFixedUpdatePrefixSkip",
+      "method": "PrefixSkip",
+      "expectedSignatureHash": "D208EAF36F6A8A83"
+    },
+    {
+      "target": "RotorShaft::FixedUpdate",
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RemoteComponentPatches::RotorShaftFixedUpdatePrefixSkip",
+      "method": "PrefixSkip",
+      "expectedSignatureHash": "0AD419C5072151CE"
+    },
+    {
+      "target": "RotorShaft::Update",
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RemoteComponentPatches::RotorShaftUpdatePrefixSkip",
+      "method": "PrefixSkip",
+      "expectedSignatureHash": "4075182B17CDED41"
+    },
+    {
+      "target": "Pilot::Update",
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RemoteComponentPatches::PilotUpdatePrefixSkip",
+      "method": "PrefixSkip",
+      "expectedSignatureHash": "77C567BD1C5D1547"
+    },
+    {
+      "target": "Turret::FixedUpdate",
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.RemoteComponentPatches::TurretFixedUpdatePrefixSkip",
+      "method": "PrefixSkip",
+      "expectedSignatureHash": "4B7191C4CE5BBFF3"
+
+    },
+
+    {
+
+      "target": "ParticleEffectManager::EmitParticles",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.CombatVfxPatches::EmitParticlesPrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "5BA2944D2C505192"
+
+    },
+
+    {
+
+      "target": "DamageParticles::Update",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.CombatVfxPatches::DamageParticlesUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "ECA21C6A70E92FA4"
+
+    },
+
+    {
+
+      "target": "NuclearOption.NetworkTransforms.SnapshotBuffer`1::RemoveOld",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.SnapshotBufferPatches::RemoveOldPrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "836E184269AD4BD4"
+
+    },
+
+    {
+
+      "target": "Gun::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.WeaponShellPatches::GunFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "A8C02911FC3B1981"
+
+    },
+
+    {
+
+      "target": "Laser::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.WeaponShellPatches::LaserFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "A419B163F7D2D778"
+
+    },
+
+    {
+
+      "target": "JammingPod::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.WeaponShellPatches::JammingPodFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "CC35495949E90BA5"
+
+    },
+
+    {
+
+      "target": "Radar::Update",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.WeaponShellPatches::RadarUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "E9350E088D880408"
+
+    },
+
+    {
+
+      "target": "Repulsorlift::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.WeaponShellPatches::RepulsorliftFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "34E67A135C6A2235"
+
+    },
+
+    {
+
+      "target": "AirCushion::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.WeaponShellPatches::AirCushionFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "1A54C8CAE44E3004"
+
+    },
+
+    {
+
+      "target": "Transmission::FixedUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.WeaponShellPatches::TransmissionFixedUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "BF085468F6BC04B4"
+
+    },
+
+    {
+
+      "target": "Aircraft::CheckSpawnedInPosition",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.WeaponShellPatches::CheckSpawnedInPositionPrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "1FB215C52971FCAD"
+
+    },
+
+    {
+
+      "target": "SendTransformBatcher::VisualUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.SendTransformBatcherRedirect::VisualUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "F1ED9765B43EC651"
+
+    },
+
+    {
+
+      "target": "ControlSurface::UpdateJobFields",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.ControlSurfaceJobPatches::UpdateJobFieldsPrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "0A3298C4DFB80BDC"
+
+    },
+
+    {
+
+      "target": "Gun::Update",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.WeaponShellPatches::GunUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "EAB4DCEABCD0BD34"
+
+    },
+
+    {
+
+      "target": "Laser::LateUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.WeaponShellPatches::LaserLateUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "0CFDD6667ED92667"
+
+    },
+
+    {
+
+      "target": "JammingPod::LateUpdate",
+
+      "inject": "NOLoader.MultiplayerClientSideOptimization.Patches.WeaponShellPatches::JammingPodLateUpdatePrefixSkip",
+
+      "method": "PrefixSkip",
+
+      "expectedSignatureHash": "15B067A4DA821AB4"
+
+    }
+
+  ]
+
+}
+

@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <DefaultItemExcludes>$(DefaultItemExcludes);BepInEx/**</DefaultItemExcludes>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <RootNamespace>NOLoader.MultiplayerClientSideOptimization</RootNamespace>
+    <AssemblyName>NOLoader.MultiplayerClientSideOptimization</AssemblyName>
+    <Configurations>Debug;Release;RDYTU;DEV_SDK</Configurations>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="BepInEx/**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(NOLoaderEngineRoot)\src\NOLoader.API\NOLoader.API.csproj" />
+    <ProjectReference Include="$(NOLoaderEngineRoot)\DEV.SDK\shared\NOLoader.ModConfig\NOLoader.ModConfig.csproj" />
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Mirage">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\Mirage.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+</Project>

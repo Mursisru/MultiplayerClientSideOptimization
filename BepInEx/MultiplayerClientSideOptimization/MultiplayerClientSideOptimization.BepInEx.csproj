@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <RootNamespace>MultiplayerClientSideOptimization.BepInEx</RootNamespace>
+    <AssemblyName>MultiplayerClientSideOptimization</AssemblyName>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <NuclearOptionRoot Condition="'$(NuclearOptionRoot)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Nuclear Option</NuclearOptionRoot>
+    <NOLoaderEngineRoot Condition="'$(NOLoaderEngineRoot)' == ''">$(MSBuildThisFileDirectory)..\..\..\NOLoader_Engine</NOLoaderEngineRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\src\MpConfig.cs" Link="Shared\MpConfig.cs" />
+    <Compile Include="..\..\src\MpStats.cs" Link="Shared\MpStats.cs" />
+    <Compile Include="..\..\src\MpSessionState.cs" Link="Shared\MpSessionState.cs" />
+    <Compile Include="..\..\src\MpPatchGuard.cs" Link="Shared\MpPatchGuard.cs" />
+    <Compile Include="..\..\src\MpVisualBudget.cs" Link="Shared\MpVisualBudget.cs" />
+    <Compile Include="..\..\src\MpMemoryBudget.cs" Link="Shared\MpMemoryBudget.cs" />
+    <Compile Include="..\..\src\MpRbPresentationHelper.cs" Link="Shared\MpRbPresentationHelper.cs" />
+    <Compile Include="..\..\src\MpReflection.cs" Link="Shared\MpReflection.cs" />
+    <Compile Include="..\..\src\Patches\PresentationVfxPatches.cs" Link="Shared\Patches\PresentationVfxPatches.cs" />
+    <Compile Include="..\..\src\Patches\AircraftPartialPatches.cs" Link="Shared\Patches\AircraftPartialPatches.cs" />
+    <Compile Include="..\..\src\Patches\MissileDistancePatches.cs" Link="Shared\Patches\MissileDistancePatches.cs" />
+    <Compile Include="..\..\src\Patches\RbPresentationPatches.cs" Link="Shared\Patches\RbPresentationPatches.cs" />
+    <Compile Include="..\..\src\Patches\NetworkVisualBudgetPatches.cs" Link="Shared\Patches\NetworkVisualBudgetPatches.cs" />
+    <Compile Include="..\..\src\Patches\RemoteComponentPatches.cs" Link="Shared\Patches\RemoteComponentPatches.cs" />
+    <Compile Include="..\..\src\Patches\CombatVfxPatches.cs" Link="Shared\Patches\CombatVfxPatches.cs" />
+    <Compile Include="..\..\src\MpNetworkTransformHelper.cs" Link="Shared\MpNetworkTransformHelper.cs" />
+    <Compile Include="..\..\src\MpPresentationExemptGuard.cs" Link="Shared\MpPresentationExemptGuard.cs" />
+    <Compile Include="..\..\src\MpDeepFreezeGuard.cs" Link="Shared\MpDeepFreezeGuard.cs" />
+    <Compile Include="..\..\src\MpDeepFreezeState.cs" Link="Shared\MpDeepFreezeState.cs" />
+    <Compile Include="..\..\src\MpDeepFreezeManager.cs" Link="Shared\MpDeepFreezeManager.cs" />
+    <Compile Include="..\..\src\MpDeepFreezeResync.cs" Link="Shared\MpDeepFreezeResync.cs" />
+    <Compile Include="..\..\src\Patches\SendTransformBatcherRedirect.cs" Link="Shared\Patches\SendTransformBatcherRedirect.cs" />
+    <Compile Include="..\..\src\Patches\ControlSurfaceJobPatches.cs" Link="Shared\Patches\ControlSurfaceJobPatches.cs" />
+    <Compile Include="..\..\src\Patches\SnapshotBufferPatches.cs" Link="Shared\Patches\SnapshotBufferPatches.cs" />
+    <Compile Include="..\..\src\Patches\WeaponShellPatches.cs" Link="Shared\Patches\WeaponShellPatches.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(NOLoaderEngineRoot)\DEV.SDK\shared\NOLoader.ModConfig\NOLoader.ModConfig.csproj" />
+    <Reference Include="0Harmony">
+      <HintPath>..\lib\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>..\lib\BepInEx.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Mirage">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\Mirage.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>$(NuclearOptionRoot)\NuclearOption_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+</Project>
