@@ -5,16 +5,16 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
     internal static class RemoteComponentPatches
     {
         public static bool TurbofanFixedUpdatePrefixSkip(Turbofan __instance) =>
-            !TrySkipRemoteAircraftComponent(__instance);
+            !TrySkipRemoteEngineComponent(__instance);
 
         public static bool TurbojetFixedUpdatePrefixSkip(Turbojet __instance) =>
-            !TrySkipRemoteAircraftComponent(__instance);
+            !TrySkipRemoteEngineComponent(__instance);
 
         public static bool PropFanFixedUpdatePrefixSkip(PropFan __instance) =>
-            !TrySkipRemoteAircraftComponent(__instance);
+            !TrySkipRemoteEngineComponent(__instance);
 
         public static bool ConstantSpeedPropFixedUpdatePrefixSkip(ConstantSpeedProp __instance) =>
-            !TrySkipRemoteAircraftComponent(__instance);
+            !TrySkipRemoteEngineComponent(__instance);
 
         public static bool LandingGearFixedUpdatePrefixSkip(LandingGear __instance) =>
             !TrySkipRemoteAircraftComponent(__instance);
@@ -42,6 +42,18 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
 
         public static bool TurretFixedUpdatePrefixSkip(Turret __instance) =>
             !TrySkipPresentationShell(__instance?.GetComponentInParent<Unit>());
+
+        private static bool TrySkipRemoteEngineComponent(MonoBehaviour? component)
+        {
+            if (!MpSessionState.Active || component == null)
+                return false;
+
+            Aircraft? aircraft = component.GetComponentInParent<Aircraft>();
+            if (aircraft == null)
+                return false;
+
+            return MpPatchGuard.ShouldSkipRemoteEngineComponent(aircraft);
+        }
 
         private static bool TrySkipRemoteAircraftComponent(MonoBehaviour? component)
         {

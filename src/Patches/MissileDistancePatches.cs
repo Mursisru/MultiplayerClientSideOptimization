@@ -9,7 +9,7 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpSessionState.Active || __instance == null || __instance.LocalSim)
                 return true;
 
-            if (!MpPatchGuard.IsBeyondOpticalRange(__instance))
+            if (!MpPatchGuard.ShouldSkipMissilePresentationSimulation(__instance))
                 return true;
 
             return false;
@@ -20,7 +20,7 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpSessionState.Active || __instance == null || __instance.LocalSim)
                 return true;
 
-            if (!MpPatchGuard.IsBeyondOpticalRange(__instance))
+            if (!MpPatchGuard.ShouldSkipMissilePresentationSimulation(__instance))
                 return true;
 
             return false;
@@ -31,19 +31,15 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpSessionState.Active || __instance == null || __instance.LocalSim)
                 return;
 
-            if (MpPatchGuard.IsBeyondOpticalRange(__instance))
-                MpReflection.IncrementMissileTimeSinceSpawn(__instance, Time.fixedDeltaTime);
+            if (!MpPatchGuard.ShouldSkipMissilePresentationSimulation(__instance))
+                MpReflection.EnsureMissileRigidbodyAwake(__instance);
 
-            MpPatchGuard.TrySleepMissileRigidbody(__instance);
-
-            if (!MpPatchGuard.IsBeyondOpticalRange(__instance))
+            if (!MpPatchGuard.ShouldMuteMissileFlightSound(__instance))
                 return;
 
             AudioSource? flightSound = MpReflection.GetMissileFlightSound(__instance);
             if (flightSound != null)
-            {
                 flightSound.volume = 0f;
-            }
         }
     }
 }

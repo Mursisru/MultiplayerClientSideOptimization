@@ -9,6 +9,9 @@ namespace NOLoader.MultiplayerClientSideOptimization
             if (!MpSessionState.Active || unit == null)
                 return false;
 
+            if (unit is Missile missile && ShouldAlwaysRunMissilePresentation(missile))
+                return false;
+
             if (unit.LocalSim || GameManager.IsLocalAircraft(unit))
                 return false;
 
@@ -145,6 +148,27 @@ namespace NOLoader.MultiplayerClientSideOptimization
             if (id < 0)
                 id = -id;
             return id % 997;
+        }
+
+        internal static bool ShouldAlwaysRunMissilePresentation(Missile? missile)
+        {
+            if (missile == null || !MpSessionState.Active)
+                return false;
+
+            if (!MpPatchGuard.IsPresentationUnit(missile))
+                return false;
+
+            Unit? owner = missile.owner;
+            if (owner != null && GameManager.IsLocalAircraft(owner))
+                return true;
+
+            if (!GameManager.GetLocalAircraft(out Aircraft local) || local == null)
+                return false;
+
+            if (MpPresentationExemptGuard.ShouldExempt(missile, local))
+                return true;
+
+            return MpPatchGuard.DistanceToObserver(missile) <= MpConfig.PresentationFarM;
         }
     }
 }

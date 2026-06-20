@@ -150,20 +150,47 @@ namespace NOLoader.MultiplayerClientSideOptimization
             return MpVisualBudget.ShouldSkipPresentationComponent(unit);
         }
 
-        internal static void TrySleepMissileRigidbody(Missile missile)
+        internal static bool ShouldSkipMissilePresentationSimulation(Missile? missile)
         {
-            if (missile == null || missile.LocalSim || !MpSessionState.Active)
-                return;
+            if (missile == null || !MpSessionState.Active || missile.LocalSim)
+                return false;
 
-            if (!IsBeyondOpticalRange(missile) && !IsOffScreen(missile.transform.position))
-                return;
+            if (MpVisualBudget.ShouldAlwaysRunMissilePresentation(missile))
+                return false;
 
-            Rigidbody? rb = missile.rb;
-            if (rb == null || rb.isKinematic)
-                return;
+            return IsBeyondOpticalRange(missile);
+        }
 
-            rb.isKinematic = true;
-            rb.detectCollisions = false;
+        internal static bool ShouldMuteMissileFlightSound(Missile? missile)
+        {
+            if (missile == null || !MpSessionState.Active || missile.LocalSim)
+                return false;
+
+            if (MpVisualBudget.ShouldAlwaysRunMissilePresentation(missile))
+                return false;
+
+            return IsBeyondOpticalRange(missile);
+        }
+
+        internal static bool ShouldSkipRemoteEngineComponent(Unit? unit)
+        {
+            if (unit == null || !MpSessionState.Active)
+                return false;
+
+            if (!IsPresentationUnit(unit))
+                return false;
+
+            if (MpDeepFreezeManager.IsFrozen(unit))
+                return true;
+
+            if (IsLocalSelectedTarget(unit) || IsPresentationExempt(unit))
+                return false;
+
+            float dist = DistanceToObserver(unit);
+            if (dist <= MpConfig.PresentationFarM)
+                return false;
+
+            return IsLowDetail(unit) || IsBeyondPresentationFar(unit);
         }
 
         private static float ComputeOpticalRangeM()

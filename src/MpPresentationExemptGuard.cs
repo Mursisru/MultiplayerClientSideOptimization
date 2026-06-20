@@ -22,8 +22,15 @@ namespace NOLoader.MultiplayerClientSideOptimization
             if (unit.NetworkHQ != null && unit.NetworkHQ.IsTargetBeingTracked(local))
                 return true;
 
-            if (unit is Missile missile && IsIncomingMissile(missile, local))
-                return true;
+            if (unit is Missile missile)
+            {
+                Unit? owner = missile.owner;
+                if (owner != null && GameManager.IsLocalAircraft(owner))
+                    return true;
+
+                if (IsIncomingMissile(missile, local))
+                    return true;
+            }
 
             return false;
         }

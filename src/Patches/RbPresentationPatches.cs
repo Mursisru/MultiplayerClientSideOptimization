@@ -19,11 +19,7 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             MissileNetworkTransform __instance,
             NetworkTransformBase.ViewSnapshot snapshot)
         {
-            if (!ShouldSkipRbOps(__instance?.Missile))
-                return true;
-
-            MpRbPresentationHelper.ApplyMissileTransformOnly(__instance, snapshot);
-            return false;
+            return true;
         }
 
         public static bool GroundVehicleApplySnapshotPrefixSkip(

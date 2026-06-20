@@ -8,9 +8,6 @@ namespace NOLoader.MultiplayerClientSideOptimization
         private static readonly FieldInfo? MissileFlightSoundField =
             typeof(Missile).GetField("flightSound", BindingFlags.Instance | BindingFlags.NonPublic);
 
-        private static readonly FieldInfo? MissileTimeSinceSpawnField =
-            typeof(Missile).GetField("<timeSinceSpawn>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
-
         private static readonly FieldInfo? AircraftSpawnedInPositionField =
             typeof(Aircraft).GetField("spawnedInPosition", BindingFlags.Instance | BindingFlags.NonPublic);
 
@@ -24,14 +21,20 @@ namespace NOLoader.MultiplayerClientSideOptimization
             return MissileFlightSoundField.GetValue(missile) as AudioSource;
         }
 
-        internal static void IncrementMissileTimeSinceSpawn(Missile missile, float deltaTime)
+        internal static void EnsureMissileRigidbodyAwake(Missile missile)
         {
-            if (missile == null || MissileTimeSinceSpawnField == null || deltaTime <= 0f)
+            if (missile == null)
                 return;
 
-            object? current = MissileTimeSinceSpawnField.GetValue(missile);
-            float value = current is float f ? f : 0f;
-            MissileTimeSinceSpawnField.SetValue(missile, value + deltaTime);
+            Rigidbody? rb = missile.rb;
+            if (rb == null)
+                return;
+
+            if (rb.isKinematic)
+                rb.isKinematic = false;
+
+            if (!rb.detectCollisions)
+                rb.detectCollisions = true;
         }
 
         internal static bool IsAircraftSpawnedInPosition(Aircraft aircraft)

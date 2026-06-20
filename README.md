@@ -1,11 +1,11 @@
 # Multiplayer Client-Side Optimization (MpClientOpt)
 
 [![Nuclear Option](https://img.shields.io/badge/Game-Nuclear%20Option-blue)](https://store.steampowered.com/app/2168680/Nuclear_Option/)
-[![Version](https://img.shields.io/badge/Version-v0.6.5-green)](https://github.com/Mursisru/MultiplayerClientSideOptimization/releases/tag/v0.6.5)
+[![Version](https://img.shields.io/badge/Version-v0.6.7-green)](https://github.com/Mursisru/MultiplayerClientSideOptimization/releases/tag/v0.6.7)
 
 Client-side performance mod for **Nuclear Option** dedicated multiplayer clients.
 
-**Stable release:** `v0.6.5` — same optimization core as `v0.6.2`, no runtime diagnostics, 5 GB RAM reservoir.
+**Stable release:** `v0.6.7` — fixes missile salvo visibility (dedicated client: all missiles are presentation); includes `v0.6.6` physics/VFX fixes; same FPS core as `v0.6.2`.
 
 ---
 
@@ -32,6 +32,26 @@ The mod **disables itself** when `NetworkManagerNuclearOption.i.Server.Active` i
 
 ## Install
 
+### Option A — ready-made zip (recommended)
+
+1. Open [Release v0.6.7](https://github.com/Mursisru/MultiplayerClientSideOptimization/releases/tag/v0.6.7).
+2. Under **Assets**, download **`MpClientOpt-v0.6.7-NOLoader.zip`** (not *Source code*).
+3. Extract into:
+
+   `Nuclear Option\NOLoader\mods\MpClientOpt\`
+
+4. Close the game if it is running, then apply IL patches once (from this repo):
+
+```powershell
+.\scripts\deploy-mp-opt-mod.ps1 -SkipPatchTool:$false
+```
+
+   Or run full deploy if you have `NOLoader_Engine` built — PatchTool must patch `Assembly-CSharp.dll` on first install.
+
+5. Join a **dedicated server** mission (not host).
+
+### Option B — build from source
+
 1. Close the game.
 2. From this repository:
 
@@ -40,9 +60,8 @@ The mod **disables itself** when `NetworkManagerNuclearOption.i.Server.Active` i
 ```
 
 3. Install path: `Nuclear Option\NOLoader\mods\MpClientOpt\`
-4. Join a **dedicated server** mission (not host).
 
-If you already have `mod.ini` in the game folder, delete it or merge keys manually — deploy overwrites `mod.ini` on each run.
+If you already have `mod.ini` in the game folder, deploy overwrites it on each run.
 
 ---
 
@@ -90,7 +109,7 @@ deep_freeze_min_m=40000
 | `presentation_far_m` | 4000 | Far skip tier |
 | `visual_update_stride` | 4 | Round-robin `NetworkTransform::VisualUpdate` skip |
 | `component_update_stride` | 3 | Remote component FixedUpdate stride (mid zone) |
-| `rb_move_throttle` | 1 | Transform-only RB apply on presentation units |
+| `rb_move_throttle` | 1 | Transform-only RB apply (still syncs `rb.velocity`; missiles always vanilla) |
 | `memory_reservoir_mb` | **5120** | Managed RAM reservoir (~5 GB); reduces GC stutter |
 | `memory_budget` | 1 | Enable reservoir + asset warm |
 | `asset_warm` | 1 | Hold encyclopedia prefab/material refs |
@@ -110,8 +129,8 @@ Do **not** disable `memory_budget` on dedicated clients — v0.6.1 showed signif
 | **Green** | Remote aircraft components (engines, gear, surfaces, pilot) — distance tiered |
 | **Green** | Weapon aux shell (Gun, Laser, Radar, JammingPod, …) on presentation units |
 | **Yellow** | `NetworkTransform::VisualUpdate` + `SnapshotBuffer::RemoveOld` budget skip |
-| **Yellow** | Optional RB throttle — transform-only `ApplySnapshot` |
-| **Yellow** | Missile FixedUpdate / motor beyond optical range |
+| **Yellow** | Missile motor/FU skip only beyond optical **and** outside `presentation_far_m` / exempt paths |
+| **Yellow** | Optional RB throttle — transform-only `ApplySnapshot` + velocity sync (missiles always vanilla) |
 | **Runtime** | DeepFreeze + cosmetic cull >40 km (whitelist: target, lock, incoming missile) |
 
 ### Never touched (red line)

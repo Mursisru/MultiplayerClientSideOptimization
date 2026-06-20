@@ -11,3 +11,4 @@ BepInEx/lib/*.dll
 *.user
 Directory.Build.user.props
 debug-*.log
+artifacts/

@@ -6,7 +6,7 @@ namespace NOLoader.MultiplayerClientSideOptimization
 {
     public sealed class MultiplayerClientSideOptimizationMod : INOMod, INOModTickSlow, INOModTickNormal
     {
-        public const string ModVersion = "0.6.5";
+        public const string ModVersion = "0.6.7";
 
         public void OnLoad(ref NOModContext ctx)
         {

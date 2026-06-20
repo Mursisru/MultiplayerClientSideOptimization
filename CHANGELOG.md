@@ -2,6 +2,40 @@
 
 All notable changes to MpClientOpt (Multiplayer Client-Side Optimization).
 
+## [0.6.7] — 2026-06-19
+
+**Missile salvo / visibility fix.** On dedicated clients every missile is `remoteSim`; v0.6.6 still throttled them via kinematic sleep + `VisualUpdate` budget.
+
+### Fixed
+
+- Removed missile kinematic sleep entirely (vanilla `VisualUpdate` skips `ApplySnapshot` when `rb.isKinematic`).
+- `ShouldAlwaysRunMissilePresentation`: own missiles, incoming/exempt missiles, and all missiles within `presentation_far_m` never skip `VisualUpdate`, `FixedUpdate`, or `MotorThrust`.
+- `EnsureMissileRigidbodyAwake` clears stale kinematic state on presentation missiles in the combat zone.
+- Own missiles added to presentation exempt guard (DeepFreeze / deep cull whitelist).
+
+### Unchanged
+
+- 58 IL patches, aircraft/ship/engine fixes from `v0.6.6`, FPS core.
+
+---
+
+## [0.6.6] — 2026-06-19
+
+**Presentation physics / VFX correctness.** Same 58 IL patches and FPS core as `v0.6.5`; C# logic fixes only (no PatchTool re-run).
+
+### Fixed
+
+- **Missiles:** wake kinematic RB when entering optical/on-screen range; always use vanilla `MissileNetworkTransform.ApplySnapshot` (no transform-only throttle).
+- **Afterburner on apron:** engine components (Turbofan/Turbojet/PropFan/ConstantSpeedProp/TurbineEngine) no longer skipped at low LOD within `presentation_far_m`.
+- **Physics jitter:** transform-only RB apply now syncs `rb.velocity` / `angularVelocity`; restored vanilla `Aircraft::FixedUpdate` for presentation units.
+- **Ship propellers:** fixed inverted `ShipPropulsion::FixedUpdate` skip on remote ships.
+
+### Unchanged
+
+- Optimization tiers, DeepFreeze, memory reservoir (5120 MB), no runtime diagnostics.
+
+---
+
 ## [0.6.5] — 2026-06-20
 
 **Stable production release.** Optimization core unchanged from verified `v0.6.2`.

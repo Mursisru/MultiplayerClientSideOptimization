@@ -67,6 +67,12 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
             if (!MpPatchGuard.IsPresentationUnit(aircraft))
                 return true;
 
+            if (MpPatchGuard.IsLocalSelectedTarget(aircraft) || MpPatchGuard.IsPresentationExempt(aircraft))
+                return true;
+
+            if (MpPatchGuard.DistanceToObserver(aircraft) <= MpConfig.PresentationFarM)
+                return true;
+
             if (!MpPatchGuard.IsLowDetail(aircraft) && !MpPatchGuard.IsBeyondPresentationFar(aircraft))
                 return true;
 
@@ -84,6 +90,9 @@ namespace NOLoader.MultiplayerClientSideOptimization.Patches
 
             if (ShouldSkipDeepCull(ship))
                 return false;
+
+            if (!MpPatchGuard.IsBeyondPresentationFar(ship) && !MpPatchGuard.IsLowDetail(ship))
+                return true;
 
             return false;
         }
