@@ -2,6 +2,17 @@
 
 All notable changes to MpClientOpt (Multiplayer Client-Side Optimization).
 
+## [0.6.8] — 2026-06-25
+
+**Map icon / model desync (GitHub #1).** Map icons use `TrackingInfo` every frame; throttled `VisualUpdate` left `unit.transform` stale.
+
+### Fixed
+
+- `ShouldAlwaysRunVisualUpdate`: presentation aircraft/ships/GV/missiles within `presentation_far_m` (and exempt/target paths) never skip `NetworkTransform::VisualUpdate`.
+- RB transform-only path now always calls `rb.Move` when off-camera (matches vanilla `ApplySnapshot`); position no longer freezes while velocity syncs.
+
+---
+
 ## [0.6.7] — 2026-06-19
 
 **Missile salvo / visibility fix.** On dedicated clients every missile is `remoteSim`; v0.6.6 still throttled them via kinematic sleep + `VisualUpdate` budget.

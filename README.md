@@ -1,11 +1,11 @@
 # Multiplayer Client-Side Optimization (MpClientOpt)
 
 [![Nuclear Option](https://img.shields.io/badge/Game-Nuclear%20Option-blue)](https://store.steampowered.com/app/2168680/Nuclear_Option/)
-[![Version](https://img.shields.io/badge/Version-v0.6.7-green)](https://github.com/Mursisru/MultiplayerClientSideOptimization/releases/tag/v0.6.7)
+[![Version](https://img.shields.io/badge/Version-v0.6.8-green)](https://github.com/Mursisru/MultiplayerClientSideOptimization/releases/tag/v0.6.8)
 
 Client-side performance mod for **Nuclear Option** dedicated multiplayer clients.
 
-**Stable release:** `v0.6.7` — fixes missile salvo visibility (dedicated client: all missiles are presentation); includes `v0.6.6` physics/VFX fixes; same FPS core as `v0.6.2`.
+**Stable release:** `v0.6.8` — fixes map icon vs model desync (#1); includes v0.6.7 missile salvo and v0.6.6 physics/VFX fixes; same FPS core as `v0.6.2`.
 
 ---
 
@@ -34,8 +34,8 @@ The mod **disables itself** when `NetworkManagerNuclearOption.i.Server.Active` i
 
 ### Option A — ready-made zip (recommended)
 
-1. Open [Release v0.6.7](https://github.com/Mursisru/MultiplayerClientSideOptimization/releases/tag/v0.6.7).
-2. Under **Assets**, download **`MpClientOpt-v0.6.7-NOLoader.zip`** (not *Source code*).
+1. Open [Release v0.6.8](https://github.com/Mursisru/MultiplayerClientSideOptimization/releases/tag/v0.6.8).
+2. Under **Assets**, download **`MpClientOpt-v0.6.8-NOLoader.zip`** (not *Source code*).
 3. Extract into:
 
    `Nuclear Option\NOLoader\mods\MpClientOpt\`

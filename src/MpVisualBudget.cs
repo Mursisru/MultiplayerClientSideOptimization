@@ -12,6 +12,9 @@ namespace NOLoader.MultiplayerClientSideOptimization
             if (unit is Missile missile && ShouldAlwaysRunMissilePresentation(missile))
                 return false;
 
+            if (ShouldAlwaysRunVisualUpdate(unit))
+                return false;
+
             if (unit.LocalSim || GameManager.IsLocalAircraft(unit))
                 return false;
 
@@ -169,6 +172,23 @@ namespace NOLoader.MultiplayerClientSideOptimization
                 return true;
 
             return MpPatchGuard.DistanceToObserver(missile) <= MpConfig.PresentationFarM;
+        }
+
+        internal static bool ShouldAlwaysRunVisualUpdate(Unit? unit)
+        {
+            if (unit is Missile missile)
+                return ShouldAlwaysRunMissilePresentation(missile);
+
+            if (unit == null || !MpSessionState.Active)
+                return false;
+
+            if (!MpPatchGuard.IsPresentationUnit(unit))
+                return false;
+
+            if (MpPatchGuard.IsLocalSelectedTarget(unit) || MpPatchGuard.IsPresentationExempt(unit))
+                return true;
+
+            return MpPatchGuard.DistanceToObserver(unit) <= MpConfig.PresentationFarM;
         }
     }
 }
