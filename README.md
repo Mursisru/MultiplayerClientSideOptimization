@@ -1,7 +1,9 @@
+**Developer:** Mursisru
+
 # Multiplayer Client-Side Optimization (MpClientOpt)
 
 [![Nuclear Option](https://img.shields.io/badge/Game-Nuclear%20Option-blue)](https://store.steampowered.com/app/2168680/Nuclear_Option/)
-[![Version](https://img.shields.io/badge/Version-v0.6.9-green)](https://github.com/Mursisru/MultiplayerClientSideOptimization/releases/tag/v0.6.9)
+[![Version](https://img.shields.io/badge/Version-0.6.9)](https://github.com/Mursisru/MultiplayerClientSideOptimization/releases/tag/v0.6.9)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
 Client-side performance mod for **Nuclear Option** dedicated multiplayer clients. Trims **remoteSim** presentation cost (other players, missiles, mission units) without touching network authority, snapshots, or HUD/map logic.
@@ -55,6 +57,9 @@ The mod **disables itself** when `NetworkManagerNuclearOption.i.Server.Active` i
 ---
 
 ## Install
+
+> [!IMPORTANT]
+> **BepInEx 5 (x64) required** — install [BepInEx](https://docs.bepinex.dev/) in the Nuclear Option game folder before this mod.
 
 ### Option A — ready-made zip (recommended)
 
@@ -353,3 +358,9 @@ See [CHANGELOG.md](CHANGELOG.md).
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+---
+
+## Keywords
+
+nuclear-option, bepinex, harmony, mod, multiplayer, performance, mpclientopt, csharp, unity
