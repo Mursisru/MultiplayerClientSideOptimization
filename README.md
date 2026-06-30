@@ -7,16 +7,6 @@
 [![Version](https://img.shields.io/badge/Version-0.1.0-green)](https://github.com/Mursisru/NOLoader/releases/tag/v0.1.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://github.com/Mursisru/NOLoader/blob/main/LICENSE)
 
-
-Standalone mod loader for **Nuclear Option** (Unity Mono). Replaces BepInEx for new mods: lightweight native bootstrap, declarative `mod.json`, Mono.Cecil IL patches, and layered validation gates — without Harmony at runtime.
-
-| Channel | Audience | Version (current) |
-|---------|----------|-------------------|
-| **RDYTU** | Players, optimized runtime | `0.1.0 Build RDY1R6` |
-| **DEV.SDK** | Mod authors, full tooling | `0.1.0 Build DEV1PM19` |
-
-**GitHub release:** [`v0.1.0`](https://github.com/Mursisru/NOLoader/releases/tag/v0.1.0) — two zip assets: `NOLoader-0.1.0-RDYTU.zip` (player) and `NOLoader-0.1.0-DEV.SDK.zip` (mod authors).
-
 ---
 
 ## Critical warnings
@@ -41,6 +31,15 @@ Standalone mod loader for **Nuclear Option** (Unity Mono). Replaces BepInEx for 
 
 > [!NOTE]
 > **C#-only upgrades within v0.6.x** do not require re-PatchTool if the IL manifest is unchanged.
+
+Standalone mod loader for **Nuclear Option** (Unity Mono). Replaces BepInEx for new mods: lightweight native bootstrap, declarative `mod.json`, Mono.Cecil IL patches, and layered validation gates — without Harmony at runtime.
+
+| Channel | Audience | Version (current) |
+|---------|----------|-------------------|
+| **RDYTU** | Players, optimized runtime | `0.1.0 Build RDY1R6` |
+| **DEV.SDK** | Mod authors, full tooling | `0.1.0 Build DEV1PM19` |
+
+**GitHub release:** [`v0.1.0`](https://github.com/Mursisru/NOLoader/releases/tag/v0.1.0) — two zip assets: `NOLoader-0.1.0-RDYTU.zip` (player) and `NOLoader-0.1.0-DEV.SDK.zip` (mod authors).
 
 ## Table of contents
 
