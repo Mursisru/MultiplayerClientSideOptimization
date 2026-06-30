@@ -11,7 +11,7 @@ namespace MultiplayerClientSideOptimization.BepInEx
     {
         public const string PluginGuid = "com.at747.multiplayerclientsideoptimization";
         public const string PluginName = "Multiplayer Client-Side Optimization";
-        public const string PluginVersion = "0.6.8";
+        public const string PluginVersion = "0.6.9";
 
         private Harmony? _harmony;
         private int _deoptFrameCounter;

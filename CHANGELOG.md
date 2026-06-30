@@ -2,6 +2,17 @@
 
 All notable changes to MpClientOpt (Multiplayer Client-Side Optimization).
 
+## [0.6.9] — 2026-06-30
+
+**Documentation.** No code or IL patch changes from `v0.6.8`.
+
+### Changed
+
+- Full `README.md` rewrite: install/upgrade, complete `mod.ini` reference, distance tiers, combat presentation guards, troubleshooting, performance baseline, repository layout.
+- Version table and upgrade matrix (PatchTool required only on first install).
+
+---
+
 ## [0.6.8] — 2026-06-25
 
 **Map icon / model desync (GitHub #1).** Map icons use `TrackingInfo` every frame; throttled `VisualUpdate` left `unit.transform` stale.
