@@ -3,8 +3,9 @@
 # Multiplayer Client-Side Optimization (MpClientOpt)
 
 [![Nuclear Option](https://img.shields.io/badge/Game-Nuclear%20Option-blue)](https://store.steampowered.com/app/2168680/Nuclear_Option/)
-[![Version](https://img.shields.io/badge/Version-0.6.9)](https://github.com/Mursisru/MultiplayerClientSideOptimization/releases/tag/v0.6.9)
-[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+[![NOLoader](https://img.shields.io/badge/Loader-NOLoader-purple)](https://github.com/Mursisru/NOLoader)
+[![Version](https://img.shields.io/badge/Version-0.6.9-green)](https://github.com/Mursisru/MultiplayerClientSideOptimization/releases/tag/v0.6.9)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://github.com/Mursisru/MultiplayerClientSideOptimization/blob/master/LICENSE)
 
 Client-side performance mod for **Nuclear Option** dedicated multiplayer clients. Trims **remoteSim** presentation cost (other players, missiles, mission units) without touching network authority, snapshots, or HUD/map logic.
 
@@ -49,7 +50,7 @@ The mod **disables itself** when `NetworkManagerNuclearOption.i.Server.Active` i
 ## Requirements
 
 - [Nuclear Option](https://store.steampowered.com/app/2168680/Nuclear_Option/) (Steam)
-- [NOLoader](https://github.com/at747/NOLoader_Engine) — primary loader
+- [NOLoader](https://github.com/Mursisru/NOLoader) — primary loader ([install guide](https://github.com/Mursisru/NOLoader/blob/main/docs/INSTALL.md))
 - Sibling repo for build/deploy: `../NOLoader_Engine`
 - **First install only:** PatchTool must IL-patch `Assembly-CSharp.dll` (see [Install](#install))
 - Optional: BepInEx 5 mirror build (see [Build](#build))
@@ -59,7 +60,10 @@ The mod **disables itself** when `NetworkManagerNuclearOption.i.Server.Active` i
 ## Install
 
 > [!IMPORTANT]
-> **BepInEx 5 (x64) required** — install [BepInEx](https://docs.bepinex.dev/) in the Nuclear Option game folder before this mod.
+> **NOLoader required** — install [NOLoader](https://github.com/Mursisru/NOLoader/releases) before this mod. Use the **NOLoader** release zip (`MpClientOpt-v*-NOLoader.zip`), not a BepInEx-only build, unless you explicitly run the BepInEx mirror workflow.
+
+> [!WARNING]
+> **Dedicated client only** — this mod disables itself on host / listen-server (`Server.Active == true`). Join as a **client** on a dedicated server to benefit from optimizations.
 
 ### Option A — ready-made zip (recommended)
 
