@@ -12,3 +12,7 @@ BepInEx/lib/*.dll
 Directory.Build.user.props
 debug-*.log
 artifacts/
+
+.cursorrules
+.cursor/
+
